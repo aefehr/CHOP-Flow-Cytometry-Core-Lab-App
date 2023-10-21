@@ -23,7 +23,6 @@ __pycache__
 *.env
 *.ini
 *.toml
-*.md
 
 # Ignore Python bytecode files
 *.pyc
