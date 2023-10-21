@@ -1,0 +1,30 @@
+# Ignore virtual environment
+myenv/
+
+# Ignore common Python cache and build folders
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+*.pyc
+
+# Ignore system-specific and configuration files
+*.db
+*.sqlite
+*.log
+*.cache
+*.json
+*.xml
+*.yaml
+*.yml
+*.cfg
+*.conf
+*.env
+*.ini
+*.toml
+*.md
+
+# Ignore Python bytecode files
+*.pyc
+__pycache__/
