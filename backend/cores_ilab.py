@@ -34,7 +34,8 @@ def login_iLab(iLab_url=iLab_url):
 
     # Here the user is giveen time (wait_seconds) to enter the user name and password in the browser window
     # When the user is logged in iLab, the "user_dropdown" button becomes visible. 
-    wait_seconds = 600
+    #EDITED
+    wait_seconds = 5
     try:
         WebDriverWait(browser, wait_seconds).until(EC.visibility_of_element_located((By.ID, "user_dropdown")))
         logged_in = True
