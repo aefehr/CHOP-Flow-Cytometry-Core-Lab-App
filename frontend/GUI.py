@@ -5,6 +5,7 @@ from backend.cores_sqlite3 import User, Event
 from datetime import datetime
 from backend.cores_ilab import login_iLab, get_user_info
 from backend.cores_hash import get_salt_hash
+from frontend.emergencyGUI import EmergencyGUI
 
 class iLabGUI(QWidget):
     def __init__(self, parent=None):
@@ -357,7 +358,11 @@ class MainWindow(QMainWindow):
             self.hide()
 
         else:
-            print("Login failed. Handle this case accordingly.")
+            # Create and show the emergencyGUI window
+            self.emergency_window = EmergencyGUI()
+            self.emergency_window.show_on_top()
+            # Hide the main window
+            self.hide()
             
 
 if __name__ == "__main__":
