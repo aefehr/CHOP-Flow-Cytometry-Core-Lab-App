@@ -28,3 +28,6 @@ __pycache__
 # Ignore Python bytecode files
 *.pyc
 __pycache__/
+
+# Ignore db
+backend/cores.db
