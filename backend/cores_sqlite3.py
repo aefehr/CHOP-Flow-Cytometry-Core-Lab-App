@@ -349,31 +349,31 @@ def initialize_database():
     conn = conn_cores_db(path_to_folder)
 
     # create an instance user
-    user1 = User() 
+    #user1 = User() 
 
     # set values for some attributes 
-    user1.email = 'user1@chop.edu'  
-    user1.name = 'Jim Smith'
-    user1.nickname = 'Jim'
-    user1.phone = '111-456-7890'
-    user1.pi_name = 'Dr. Sam'
-    user1.pi_phone = '445-444-4444'
-    user1.first_login = '2023-08-02 13:31:03'
-    user1.login_attempts = '1'
+    #user1.email = 'user1@chop.edu'  
+    #user1.name = 'Jim Smith'
+    #user1.nickname = 'Jim'
+    #user1.phone = '111-456-7890'
+    #user1.pi_name = 'Dr. Sam'
+    #user1.pi_phone = '445-444-4444'
+    #user1.first_login = '2023-08-02 13:31:03'
+    #user1.login_attempts = '1'
 
     # add user
-    user1.add_user()
+    #user1.add_user()
 
     # get the row_id of the user
-    row_id = get_rowid_for('user1@chop.edu', "Dr.Sam")
-    print ('row_id:', row_id)  
+    #row_id = get_rowid_for('user1@chop.edu', "Dr.Sam")
+    #print ('row_id:', row_id)  
 
-    salt_str, hash_db =  get_salt_hash('user1@chop.edu', 'psw')
-    print('hash_db:', hash_db) 
+    #salt_str, hash_db =  get_salt_hash('user1@chop.edu', 'psw')
+    #print('hash_db:', hash_db) 
 
     # update the the user property
-    id = 1
-    user1.update_user_property(id, "salt", salt_str)
-    user1.update_user_property(id, "hash", hash_db)
+    #id = 1
+    #user1.update_user_property(id, "salt", salt_str)
+    #user1.update_user_property(id, "hash", hash_db)
     
-    print(User.authenticate_user("user1@chop.edu","psw"))
+    #print(User.authenticate_user("user1@chop.edu","psw"))
