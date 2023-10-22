@@ -5,6 +5,8 @@ class EmergencyGUI(QWidget):
     def __init__(self):
         super().__init__()
 
+        #self.main_window = main_window
+
         self.setWindowTitle("Emergency Access")
         self.setGeometry(100, 100, 400, 200)
         self.setStyleSheet("background-color: #99CCFE;")
@@ -66,11 +68,24 @@ class EmergencyGUI(QWidget):
 
         layout.addWidget(request_button)
 
+        # Create the "Cancel" button
+        cancel_button = QPushButton("Cancel", self)
+        cancel_button.setStyleSheet("background-color: lightgray;")
+        layout.addWidget(cancel_button)
+
+        # Connect the "Cancel" button to the cancel method
+        cancel_button.clicked.connect(self.cancel)
+
         self.setLayout(layout)
 
     def show_on_top(self):
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
         self.show()
         self.raise_()
+
+    def cancel(self):
+        # Close the EmergencyGUI window
+        self.close()
+        
     
 

@@ -361,8 +361,7 @@ class MainWindow(QMainWindow):
             # Create and show the emergencyGUI window
             self.emergency_window = EmergencyGUI()
             self.emergency_window.show_on_top()
-            # Hide the main window
-            self.hide()
+            
             
 
 if __name__ == "__main__":
