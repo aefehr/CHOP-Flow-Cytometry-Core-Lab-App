@@ -11,6 +11,8 @@ class iLabGUI(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        self.second_window = None # start as none
+
         layout = QVBoxLayout(self)
         self.setStyleSheet("background-color: #99CCFE;")
 
@@ -130,9 +132,17 @@ class iLabGUI(QWidget):
                 login_event_id = login_event.record_login()
 
                 # EDIT 
-                second_window = MiniGUI(email, login_event)
-                second_window.show()
-                self.close()
+                self.second_window = MiniGUI(email, login_event)  # Store it as an instance variable
+                self.second_window.show()
+                #txt_box_1.clear()
+                #txt_box_2.clear()
+                self.hide()
+
+                #second_window = MiniGUI(email, login_event)
+                #second_window.show()
+                #second_window.raise_()
+                #second_window.activateWindow()
+                #self.close()
             else:
                 print("Error adding user to the database. Handle this case accordingly.")
         else:
