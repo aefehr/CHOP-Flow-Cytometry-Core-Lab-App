@@ -7,7 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException, NoSuchWindowException
 from selenium.webdriver.chrome.options import Options
 
 
@@ -41,6 +41,8 @@ def login_iLab(iLab_url=iLab_url):
         logged_in = True
     except (TimeoutException, NoSuchElementException) as e:
         # TODO: add code to manage this error
+        logged_in = False
+    except NoSuchWindowException:
         logged_in = False
         
     chrome_options = Options()
