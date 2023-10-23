@@ -99,6 +99,7 @@ class EmergencyGUI(QWidget):
         self.raise_()
 
     def cancel(self):
+        self.main_window.show()
         # Close the EmergencyGUI window
         self.close()
      
@@ -122,6 +123,7 @@ class EmergencyGUI(QWidget):
         event_id = login_event.record_login()
 
         if event_id:
+            # TODO: add code to manage emergency access request
             print(f"Emergency login recorded with ID {event_id}")
             
             #mini_gui = MiniGUI(email, login_event, self.main_window)

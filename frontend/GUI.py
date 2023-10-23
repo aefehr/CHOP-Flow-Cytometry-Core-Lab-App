@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
 
                 if login_event_id:
                     print(f"Login successful. Login event recorded with ID {login_event_id}")
-                    second_window = MiniGUI(email, login_event, window)
+                    second_window = MiniGUI(email, login_event, self)
                     second_window.show()
                     txt_box_1.clear()
                     txt_box_2.clear()
@@ -157,6 +157,7 @@ class MainWindow(QMainWindow):
             # Create and show the emergencyGUI window
             self.error_window = ErrorGUI(self)
             self.error_window.show_on_top()
+            self.hide()
             
             
 
