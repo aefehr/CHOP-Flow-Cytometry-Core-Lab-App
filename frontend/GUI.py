@@ -5,9 +5,10 @@ from backend.cores_sqlite3 import User, Event
 from datetime import datetime
 from backend.cores_ilab import login_iLab, get_user_info
 from backend.cores_hash import get_salt_hash
-from frontend.emergencyGUI import EmergencyGUI
+from frontend.EmergencyGUI import EmergencyGUI
 from frontend.iLabGUI import iLabGUI
 from frontend.MiniGUI import MiniGUI
+from frontend.ErrorGUI import ErrorGUI
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -154,8 +155,10 @@ class MainWindow(QMainWindow):
 
         else:
             # Create and show the emergencyGUI window
-            self.emergency_window = EmergencyGUI()
-            self.emergency_window.show_on_top()
+            #self.emergency_window = EmergencyGUI()
+            #self.emergency_window.show_on_top()
+            self.error_window = ErrorGUI()
+            self.error_window.show_on_top()
             
             
 
