@@ -5,7 +5,7 @@ class EmergencyGUI(QWidget):
     def __init__(self):
         super().__init__()
 
-        #self.main_window = main_window
+        self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
 
         self.setWindowTitle("Emergency Access")
         self.setGeometry(100, 100, 400, 200)
