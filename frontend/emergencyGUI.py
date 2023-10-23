@@ -1,11 +1,17 @@
 from PySide6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QGridLayout
 from PySide6.QtCore import Qt
+from backend.cores_sqlite3 import User, Event
+from datetime import datetime
+from frontend.MiniGUI import MiniGUI
 
 class EmergencyGUI(QWidget):
-    def __init__(self):
+    def __init__(self, main_window):
         super().__init__()
 
         self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
+
+        self.mini_gui = None # start as none
+        self.main_window = main_window
 
         self.setWindowTitle("Emergency Access")
         self.setGeometry(100, 100, 400, 200)
@@ -45,12 +51,21 @@ class EmergencyGUI(QWidget):
             field.setPlaceholderText("Enter " + field.placeholderText())
             field.setMinimumWidth(200)  # Adjust field length
 
+        # Assign the email line edit to self.email_line_edit
+        self.first_name_line_edit = fields[0]
+        self.last_name_line_edit = fields[1]
+        self.email_line_edit = fields[2]
+        self.phone_line_edit = fields[3]
+        self.pi_name_line_edit = fields[4]
+        
         # Create a widget to contain the input_layout
         input_widget = QWidget()
         input_widget.setLayout(input_layout)
 
         # Add the input_widget to the main layout with center alignment
         layout.addWidget(input_widget, alignment=Qt.AlignCenter)
+
+
 
         # Create the italicized note with word wrap
         note_label = QLabel(
@@ -65,7 +80,7 @@ class EmergencyGUI(QWidget):
         # Request button
         request_button = QPushButton("Request Emergency Access", self)
         request_button.setStyleSheet("background-color: lightgray;")
-
+        request_button.clicked.connect(self.request_emergency_access)
         layout.addWidget(request_button)
 
         # Create the "Cancel" button
@@ -86,6 +101,35 @@ class EmergencyGUI(QWidget):
     def cancel(self):
         # Close the EmergencyGUI window
         self.close()
+     
+     # create function for logging in user through emergency access
+    def request_emergency_access(self):
+        # Collect the user information from the input fields
+        email = self.email_line_edit.text()
+        first_name = self.first_name_line_edit.text()
+        last_name = self.last_name_line_edit.text()
+        phone = self.phone_line_edit.text()
+        pi_name = self.pi_name_line_edit.text()
+
+        # Create an instance of Event and fill in the event details
+        login_event = Event()
+        login_event.email = email
+        login_event.device = "Aurora alpha"
+        login_event.login_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        login_event.login_type = "EMERGENCY"
+
+         # Record the login event in the database
+        event_id = login_event.record_login()
+
+        if event_id:
+            print(f"Emergency login recorded with ID {event_id}")
+            
+            #mini_gui = MiniGUI(email, login_event, self.main_window)
+            #mini_gui.show()
+            #self.close()
+        else:
+            print("Error recording emergency login event.")
+            
         
     
 

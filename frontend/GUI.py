@@ -155,7 +155,7 @@ class MainWindow(QMainWindow):
 
         else:
             # Create and show the emergencyGUI window
-            self.error_window = ErrorGUI()
+            self.error_window = ErrorGUI(self)
             self.error_window.show_on_top()
             
             

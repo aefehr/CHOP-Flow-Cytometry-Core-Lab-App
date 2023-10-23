@@ -5,12 +5,13 @@ from frontend.iLabGUI import iLabGUI
 from backend.cores_ilab import login_iLab, get_user_info
 
 class ErrorGUI(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, main_window, parent=None):
         super().__init__(parent)
 
         self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
 
         self.emergency_window = None
+        self.main_window = main_window
 
         # Create a QVBoxLayout to stack widgets vertically
         layout = QVBoxLayout()
@@ -63,12 +64,12 @@ class ErrorGUI(QWidget):
 
             # for else, it should open emergency GUI
             else: 
-                self.emergency_window = EmergencyGUI()
+                self.emergency_window = EmergencyGUI(self.main_window)
                 self.emergency_window.show_on_top()
                 self.close()
 
     def open_emergency(self):
-        self.emergency_window = EmergencyGUI()
+        self.emergency_window = EmergencyGUI(self.main_window)
         self.emergency_window.show_on_top()
         self.close()
     
