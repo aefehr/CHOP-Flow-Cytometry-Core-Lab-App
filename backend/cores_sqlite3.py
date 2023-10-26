@@ -60,7 +60,16 @@ def conn_cores_db(path_to_folder= None):
             try:
                 conn = sqlite3.connect(path_to_cores_db)
                 print("'cores.db' has been created.")
-                create_tables(conn)         # Note: conn must be passed for creating the tables!
+                create_tables(conn)         
+
+                # create & add admin user when new db created 
+                admin_user = User()
+                admin_user.email = 'admin'
+                admin_user.name = 'Admin User'
+                admin_user.type = 'admin'
+                admin_user.salt, admin_user.hash = get_salt_hash('admin', 'admin')
+                admin_user.add_user()
+                print('Admin user created.')
 
                 return conn
             except sqlite3.Error as e:
