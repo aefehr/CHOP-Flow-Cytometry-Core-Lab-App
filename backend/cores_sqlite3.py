@@ -131,7 +131,11 @@ class User:
             user_dict = self.__dict__
 
             # Generate the placeholders for SQL values   :id, :email, :name ...
-            placeholders = ", ".join([f":{col}" for col in user_dict.keys()])   #--FT Excellent idea! 
+            placeholders = ", ".join([f":{col}" for col in user_dict.keys()])  
+
+            # Set the 'first_login' attribute to the current datetime
+            self.first_login = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            self.last_login = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
             # Generate the SQL query using named placeholders
             sql = f"INSERT INTO users VALUES ({placeholders})"
@@ -251,6 +255,16 @@ class User:
             return False
         
         result = authenticate(email, password, salt_db_str, hash_db_str)
+
+        # Update 'last_login' when login is successful
+        if result:
+            try:
+                with conn:
+                    cursor = conn.cursor()
+                    cursor.execute("UPDATE users SET last_login=? WHERE email=?", (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), email))
+                    conn.commit()
+            except sqlite3.Error as e:
+                print("Error while updating last_login:", e)
         
         return result
 
@@ -356,33 +370,3 @@ def initialize_database():
     script_directory = os.path.dirname(os.path.abspath(__file__))
     path_to_folder = os.path.dirname(os.path.abspath(__file__))
     conn = conn_cores_db(path_to_folder)
-
-    # create an instance user
-    #user1 = User() 
-
-    # set values for some attributes 
-    #user1.email = 'user1@chop.edu'  
-    #user1.name = 'Jim Smith'
-    #user1.nickname = 'Jim'
-    #user1.phone = '111-456-7890'
-    #user1.pi_name = 'Dr. Sam'
-    #user1.pi_phone = '445-444-4444'
-    #user1.first_login = '2023-08-02 13:31:03'
-    #user1.login_attempts = '1'
-
-    # add user
-    #user1.add_user()
-
-    # get the row_id of the user
-    #row_id = get_rowid_for('user1@chop.edu', "Dr.Sam")
-    #print ('row_id:', row_id)  
-
-    #salt_str, hash_db =  get_salt_hash('user1@chop.edu', 'psw')
-    #print('hash_db:', hash_db) 
-
-    # update the the user property
-    #id = 1
-    #user1.update_user_property(id, "salt", salt_str)
-    #user1.update_user_property(id, "hash", hash_db)
-    
-    #print(User.authenticate_user("user1@chop.edu","psw"))
