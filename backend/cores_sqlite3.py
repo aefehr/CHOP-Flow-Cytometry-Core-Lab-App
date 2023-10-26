@@ -134,8 +134,9 @@ class User:
             placeholders = ", ".join([f":{col}" for col in user_dict.keys()])  
 
             # Set the 'first_login' attribute to the current datetime
-            self.first_login = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            self.last_login = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            self.first_login = current_time
+            self.last_login = current_time
 
             # Generate the SQL query using named placeholders
             sql = f"INSERT INTO users VALUES ({placeholders})"
@@ -148,9 +149,17 @@ class User:
                 conn.commit()
                 row_id = cursor.lastrowid
 
+                # Record the login event
+                login_event = Event()
+                login_event.email = self.email
+                # add device name 
+                login_event.login_time = current_time
+                login_event.login_type = "local" 
+                login_event.record_login()
+
             print(f"User added successfully on row {row_id}.")
             self.id = row_id
-            return row_id  # Return the row ID of the added user
+            return row_id, login_event  # Return the row ID of the added user
         
         except sqlite3.Error as e:
             print("Error:", e)

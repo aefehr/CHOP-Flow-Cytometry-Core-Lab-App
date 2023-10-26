@@ -121,18 +121,12 @@ class iLabGUI(QWidget):
             new_user.hash = hash_db_str
 
             # Add the user to the database
-            user_id = new_user.add_user()
+            user_id, login_event = new_user.add_user()
 
             if user_id:
                 print(f"User added successfully with ID {user_id}")
-                login_event = Event()
-                login_event.email = email
-                login_event.login_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                login_event.login_type = 'local'  # may need to be adjusted
-                login_event_id = login_event.record_login()
-
-                # EDIT 
-                self.second_window = MiniGUI(email, login_event, self.main_window)  # Store it as an instance variable
+ 
+                self.second_window = MiniGUI(email, login_event, self.main_window) 
                 self.second_window.show()
                 self.hide()
 
