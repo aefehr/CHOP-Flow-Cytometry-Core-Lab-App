@@ -3,6 +3,7 @@ from PySide6.QtCore import Qt
 from backend.cores_sqlite3 import User, Event
 from datetime import datetime
 from frontend.MiniGUI import MiniGUI
+import re
 
 class EmergencyGUI(QWidget):
     def __init__(self, main_window):
@@ -24,6 +25,8 @@ class EmergencyGUI(QWidget):
         heading_label.setAlignment(Qt.AlignCenter)
         heading_label.setStyleSheet("color: darkred; font-size: 18px; font-weight: bold;")
         layout.addWidget(heading_label)
+
+
 
         # Create a layout for password labels and text boxes
         input_layout = QGridLayout()
@@ -102,9 +105,64 @@ class EmergencyGUI(QWidget):
         self.main_window.show()
         # Close the EmergencyGUI window
         self.close()
+ 
+    def is_valid_input(self):
+        required_fields = {
+            "First Name": self.first_name_line_edit,
+            "Last Name": self.last_name_line_edit,
+            "Email": self.email_line_edit,
+            "Phone": self.phone_line_edit,
+            "Principal Investigator": self.pi_name_line_edit,
+        }
+
+        error_messages = []  # Store error messages
+
+        for field_name, field in required_fields.items():
+            input_text = field.text()
+
+            if not input_text:
+                error_messages.append(f"{field_name} required")
+            else:
+                if len(input_text) < 2:
+                    error_messages.append("Invalid " + field_name)
+                elif field_name == "Email":
+                    if not re.match(r"[^@]+@[^@]+\.[^@]+", input_text):
+                        error_messages.append(f"Invalid {field_name}: Enter a valid email address")
+                elif field_name == "Phone":
+                    if not re.match(r'^[0-9-]*$', input_text):
+                        error_messages.append(f"Invalid {field_name}: Use only numbers and '-'")
+                else:
+                    if not re.match(r'^[a-zA-Z0-9-]+$', input_text):
+                        error_messages.append(f"Invalid {field_name}: Use letters, numbers, and hyphens only")
+
+        valid_input = not error_messages  # Check if error messages list is empty
+        
+        # Clear old error messages
+        self.clear_error_messages()
+
+        # Display new error messages
+        for error_message in error_messages:
+            error_label = QLabel(error_message)
+            error_label.setStyleSheet("color: red;")
+            self.layout().addWidget(error_label)
+
+        return valid_input
+
+    def clear_error_messages(self):
+        # Clear any existing error labels
+        for i in reversed(range(self.layout().count())):
+            widget = self.layout().itemAt(i).widget()
+            if widget and isinstance(widget, QLabel) and widget.text().startswith("Invalid"):
+                widget.deleteLater()
+
      
      # create function for logging in user through emergency access
     def request_emergency_access(self):
+         # Check the validity of the input
+        if not self.is_valid_input():
+            return  # Exit the method without proceeding
+
+
         # Collect the user information from the input fields
         email = self.email_line_edit.text()
         first_name = self.first_name_line_edit.text()
