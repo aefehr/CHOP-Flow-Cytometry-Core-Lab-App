@@ -6,7 +6,7 @@ from datetime import datetime
 from PySide6.QtGui import QGuiApplication
 
 class MiniGUI(QWidget):
-    def __init__(self, email,login_event, window, parent=None):
+    def __init__(self, name, email,login_event, window, parent=None):
         super().__init__(parent)
         self.window = window
 
@@ -26,21 +26,30 @@ class MiniGUI(QWidget):
         left_layout = QVBoxLayout()
 
         # Get user information from the database using email
-        user = User.from_database_by_email(email)
+        #user = User.from_database_by_email(email)
 
-        if user:
+        #if user:
             # User name
-            name_label = QLabel(user.name)
-            name_label.setFont(QFont("Arial", 16, QFont.Bold))
-            left_layout.addWidget(name_label)
+            #name_label = QLabel(user.name)
+            #name_label.setFont(QFont("Arial", 16, QFont.Bold))
+            #left_layout.addWidget(name_label)
+        
+        # Displaying the provided name
+        name_label = QLabel(name)
+        name_label.setFont(QFont("Arial", 16, QFont.Bold))
+        left_layout.addWidget(name_label)
 
-            # User email
-            email_label = QLabel(user.email)
-            left_layout.addWidget(email_label)
+        # User email
+        #email_label = QLabel(user.email)
+        #left_layout.addWidget(email_label)
 
-            # Login time (formatted)
-            login_time_label = QLabel(f"Login time: {datetime.now().strftime('%I:%M %p')}")
-            left_layout.addWidget(login_time_label)
+        # Remaining user info
+        email_label = QLabel(email)
+        left_layout.addWidget(email_label)
+
+        # Login time (formatted)
+        login_time_label = QLabel(f"Login time: {datetime.now().strftime('%I:%M %p')}")
+        left_layout.addWidget(login_time_label)
 
         main_layout.addLayout(left_layout)
 

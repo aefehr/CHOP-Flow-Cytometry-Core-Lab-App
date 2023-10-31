@@ -86,23 +86,27 @@ class MainWindow(QMainWindow):
             if User.authenticate_user(email, password):
                 global second_window
 
-                # Record login event
-                login_event = Event()
-                login_event.email = email
-                login_event.login_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                login_event.login_type = 'local'  # may need to be adjusted
-                login_event_id = login_event.record_login()
+                user = User.from_database_by_email(email)
 
-                if login_event_id:
-                    print(f"Login successful. Login event recorded with ID {login_event_id}")
-                    second_window = MiniGUI(email, login_event, self)
-                    second_window.show()
-                    txt_box_1.clear()
-                    txt_box_2.clear()
-                    self.hide()
-                else:
-                    print("Error recording login event.")
-                    # Handle the error as needed
+                if user: 
+                    # Record login event
+                    login_event = Event()
+                    login_event.email = email
+                    login_event.login_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    login_event.login_type = 'local'  # may need to be adjusted
+                    login_event_id = login_event.record_login()
+
+                    if login_event_id:
+                        print(f"Login successful. Login event recorded with ID {login_event_id}")
+                        # edit 
+                        second_window = MiniGUI(user.name, email, login_event, self)
+                        second_window.show()
+                        txt_box_1.clear()
+                        txt_box_2.clear()
+                        self.hide()
+                    else:
+                        print("Error recording login event.")
+                        # Handle the error as needed
 
             else:
                 print("Login failed. Invalid password")
