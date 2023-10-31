@@ -11,7 +11,6 @@ class EmergencyGUI(QWidget):
 
         self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
 
-        self.mini_gui = None # start as none
         self.main_window = main_window
 
         self.setWindowTitle("Emergency Access")
@@ -25,8 +24,6 @@ class EmergencyGUI(QWidget):
         heading_label.setAlignment(Qt.AlignCenter)
         heading_label.setStyleSheet("color: darkred; font-size: 18px; font-weight: bold;")
         layout.addWidget(heading_label)
-
-
 
         # Create a layout for password labels and text boxes
         input_layout = QGridLayout()
@@ -67,7 +64,6 @@ class EmergencyGUI(QWidget):
 
         # Add the input_widget to the main layout with center alignment
         layout.addWidget(input_widget, alignment=Qt.AlignCenter)
-
 
 
         # Create the italicized note with word wrap
@@ -158,6 +154,7 @@ class EmergencyGUI(QWidget):
      
      # create function for logging in user through emergency access
     def request_emergency_access(self):
+        global mini_gui
          # Check the validity of the input
         if not self.is_valid_input():
             return  # Exit the method without proceeding
@@ -167,6 +164,8 @@ class EmergencyGUI(QWidget):
         email = self.email_line_edit.text()
         first_name = self.first_name_line_edit.text()
         last_name = self.last_name_line_edit.text()
+        # combine first and last names into name 
+        name = first_name + " " + last_name
         phone = self.phone_line_edit.text()
         pi_name = self.pi_name_line_edit.text()
 
@@ -184,9 +183,10 @@ class EmergencyGUI(QWidget):
             # TODO: add code to manage emergency access request
             print(f"Emergency login recorded with ID {event_id}")
             
-            #mini_gui = MiniGUI(email, login_event, self.main_window)
-            #mini_gui.show()
-            #self.close()
+            # pass first and last name as arguement 
+            mini_gui = MiniGUI(name, email, login_event, self.main_window)
+            mini_gui.show()
+            self.close()
         else:
             print("Error recording emergency login event.")
             

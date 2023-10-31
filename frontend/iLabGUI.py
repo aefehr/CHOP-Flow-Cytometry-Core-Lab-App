@@ -10,7 +10,6 @@ class iLabGUI(QWidget):
     def __init__(self, main_window, parent=None):
         super().__init__(parent)
 
-        self.second_window = None # start as none
         self.main_window = main_window
 
         layout = QVBoxLayout(self)
@@ -39,7 +38,6 @@ class iLabGUI(QWidget):
         confirmation_text.setStyleSheet("color: #808285;")
         layout.addWidget(confirmation_text, alignment=Qt.AlignCenter)
 
-        # Create a layout for name and email labels
         # Create a layout for name and email labels
         name_email_layout = QVBoxLayout()
 
@@ -104,6 +102,7 @@ class iLabGUI(QWidget):
         self.email_label.setText(f"Email: {email}")
     
     def save_profile(self):
+        global mini_gui
         # Get the entered information
         name = self.name_label.text().split(": ")[1]
         email = self.email_label.text().split(": ")[1]
@@ -126,8 +125,8 @@ class iLabGUI(QWidget):
             if user_id:
                 print(f"User added successfully with ID {user_id}")
  
-                self.second_window = MiniGUI(email, login_event, self.main_window) 
-                self.second_window.show()
+                self.mini_gui = MiniGUI(name, email, login_event, self.main_window) 
+                self.mini_gui.show()
                 self.hide()
 
             else:
