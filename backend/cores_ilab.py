@@ -13,8 +13,6 @@ from selenium.webdriver.chrome.options import Options
 
 iLab_url = 'https://chop.ilab.agilent.com/landing/101'
 
-
-
 def login_iLab(iLab_url=iLab_url):
     # set chrome options
     chrome_options = Options()
@@ -35,7 +33,7 @@ def login_iLab(iLab_url=iLab_url):
     # Here the user is giveen time (wait_seconds) to enter the user name and password in the browser window
     # When the user is logged in iLab, the "user_dropdown" button becomes visible. 
     #EDITED
-    wait_seconds = 3
+    wait_seconds = 6000
     try:
         WebDriverWait(browser, wait_seconds).until(EC.visibility_of_element_located((By.ID, "user_dropdown")))
         logged_in = True
